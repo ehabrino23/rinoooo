@@ -1,4 +1,6 @@
+
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 import random
 import string
 
@@ -24,25 +26,6 @@ from AnonXMusic.utils.inline import (
 from AnonXMusic.utils.logger import play_logs
 from AnonXMusic.utils.stream.stream import stream
 from config import BANNED_USERS, lyrical
-
-force_btn = InlineKeyboardMarkup(
-    [
-        [
-            InlineKeyboardButton(
-                text="اشترك هنا", url="https://t.me/IPP_QC"
-            ),                        
-        ],        
-    ]
-)
-
-async def check_is_joined(message):    
-    try:
-        userid = message.from_user.id
-        status = await app.get_chat_member("IPP_QC", userid)
-        return True
-    except Exception:
-        await message.reply_text("*انت لست مشترك في قناة البوت @IPP_QC ** \n**انضم لتستطيع تشغيل الاغاني**",reply_markup=force_btn,parse_mode="markdown",disable_web_page_preview=False)
-        return False
 
 
 @app.on_message(
@@ -73,9 +56,6 @@ async def play_commnd(
     url,
     fplay,
 ):
-
-    if not await check_is_joined(message):
-        return
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )

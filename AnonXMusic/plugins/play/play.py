@@ -2,7 +2,7 @@ import random ,requests
 import string
 
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
+from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InlineKeyboardButton, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
@@ -70,9 +70,9 @@ async def play_commnd(
 ):
     if (message.from_user and message.from_user.id) and not check_ch(message.from_user.id) : 
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("JOIN ♥",url=f"https://t.me/{channel_ch}")],
+            [InlineKeyboardButton("اشترك من هنا",url=f"https://t.me/{channel_ch}")],
         ])
-        return await message.reply_text(f"• عذرا يا {message.from_user.mention} \n[• عليك الاشتراك في القناه لاستخدام البوت](https://t.me/{channel_ch}) \n[•you must join to my channel to use bot](https://t.me/{channel_ch})",reply_markup=reply_markup)
+        return await message.reply_text(f"• انت لست مشترك في قناة البوت @{channel_ch}  \n• انضم لتستطيع تشغيل الاغاني",reply_markup=reply_markup)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )

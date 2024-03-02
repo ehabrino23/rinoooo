@@ -19,13 +19,14 @@ async def playmode_(client, message: Message, _):
         return await message.reply_text(_["cplay_7"])
     elif str(query) == "linked":
         chat = await app.get_chat(message.chat.id)
-        if not chat.linked_chat:
+        if chat.linked_chat:
+            chat_id = chat.linked_chat.id
+            await set_cmode(message.chat.id, chat_id)
+            return await message.reply_text(
+                _["cplay_3"].format(chat.linked_chat.title, chat.linked_chat.id)
+            )
+        else:
             return await message.reply_text(_["cplay_2"])
-        chat_id = chat.linked_chat.id
-        await set_cmode(message.chat.id, chat_id)
-        return await message.reply_text(
-            _["cplay_3"].format(chat.linked_chat.title, chat.linked_chat.id)
-        )
     else:
         try:
             chat = await app.get_chat(query)

@@ -6,14 +6,15 @@ from AnonXMusic import app
 
 
 def help_pannel(_, START: Union[bool, int] = None):
-    first = [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")]
+    first = [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close")]
     second = [
         InlineKeyboardButton(
-            text=_["BACK_BUTTON"], callback_data="settingsback_helper"
-        )
+            text=_["BACK_BUTTON"],
+            callback_data=f"settingsback_helper",
+        ),
     ]
     mark = second if START else first
-    return InlineKeyboardMarkup(
+    upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
@@ -88,22 +89,25 @@ def help_pannel(_, START: Union[bool, int] = None):
             mark,
         ]
     )
+    return upl
 
 
 def help_back_markup(_):
-    return InlineKeyboardMarkup(
+    upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    text=_["BACK_BUTTON"], callback_data="settings_back_helper"
-                )
+                    text=_["BACK_BUTTON"],
+                    callback_data=f"settings_back_helper",
+                ),
             ]
         ]
     )
+    return upl
 
 
 def private_help_panel(_):
-    return [
+    buttons = [
         [
             InlineKeyboardButton(
                 text=_["S_B_4"],
@@ -111,3 +115,4 @@ def private_help_panel(_):
             ),
         ],
     ]
+    return buttons

@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton
 
 
 def setting_markup(_):
-    return [
+    buttons = [
         [
             InlineKeyboardButton(text=_["ST_B_1"], callback_data="AU"),
             InlineKeyboardButton(text=_["ST_B_3"], callback_data="LG"),
@@ -16,19 +16,16 @@ def setting_markup(_):
             InlineKeyboardButton(text=_["ST_B_4"], callback_data="VM"),
         ],
         [
-            InlineKeyboardButton(
-                text=_["CLOSE_BUTTON"], callback_data="close"
-            ),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ],
     ]
+    return buttons
 
 
 def vote_mode_markup(_, current, mode: Union[bool, str] = None):
-    return [
+    buttons = [
         [
-            InlineKeyboardButton(
-                text="Vᴏᴛɪɴɢ ᴍᴏᴅᴇ ➜", callback_data="VOTEANSWER"
-            ),
+            InlineKeyboardButton(text="Vᴏᴛɪɴɢ ᴍᴏᴅᴇ ➜", callback_data="VOTEANSWER"),
             InlineKeyboardButton(
                 text=_["ST_B_5"] if mode == True else _["ST_B_6"],
                 callback_data="VOMODECHANGE",
@@ -47,15 +44,14 @@ def vote_mode_markup(_, current, mode: Union[bool, str] = None):
                 text=_["BACK_BUTTON"],
                 callback_data="settings_helper",
             ),
-            InlineKeyboardButton(
-                text=_["CLOSE_BUTTON"], callback_data="close"
-            ),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ],
     ]
+    return buttons
 
 
 def auth_users_markup(_, status: Union[bool, str] = None):
-    return [
+    buttons = [
         [
             InlineKeyboardButton(text=_["ST_B_7"], callback_data="AUTHANSWER"),
             InlineKeyboardButton(
@@ -71,11 +67,10 @@ def auth_users_markup(_, status: Union[bool, str] = None):
                 text=_["BACK_BUTTON"],
                 callback_data="settings_helper",
             ),
-            InlineKeyboardButton(
-                text=_["CLOSE_BUTTON"], callback_data="close"
-            ),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ],
     ]
+    return buttons
 
 
 def playmode_users_markup(
@@ -84,29 +79,23 @@ def playmode_users_markup(
     Group: Union[bool, str] = None,
     Playtype: Union[bool, str] = None,
 ):
-    return [
+    buttons = [
         [
-            InlineKeyboardButton(
-                text=_["ST_B_10"], callback_data="SEARCHANSWER"
-            ),
+            InlineKeyboardButton(text=_["ST_B_10"], callback_data="SEARCHANSWER"),
             InlineKeyboardButton(
                 text=_["ST_B_11"] if Direct == True else _["ST_B_12"],
                 callback_data="MODECHANGE",
             ),
         ],
         [
-            InlineKeyboardButton(
-                text=_["ST_B_13"], callback_data="AUTHANSWER"
-            ),
+            InlineKeyboardButton(text=_["ST_B_13"], callback_data="AUTHANSWER"),
             InlineKeyboardButton(
                 text=_["ST_B_8"] if Group == True else _["ST_B_9"],
                 callback_data="CHANNELMODECHANGE",
             ),
         ],
         [
-            InlineKeyboardButton(
-                text=_["ST_B_14"], callback_data="PLAYTYPEANSWER"
-            ),
+            InlineKeyboardButton(text=_["ST_B_14"], callback_data="PLAYTYPEANSWER"),
             InlineKeyboardButton(
                 text=_["ST_B_8"] if Playtype == True else _["ST_B_9"],
                 callback_data="PLAYTYPECHANGE",
@@ -117,8 +106,7 @@ def playmode_users_markup(
                 text=_["BACK_BUTTON"],
                 callback_data="settings_helper",
             ),
-            InlineKeyboardButton(
-                text=_["CLOSE_BUTTON"], callback_data="close"
-            ),
+            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
         ],
     ]
+    return buttons

@@ -17,4 +17,5 @@ async def AnonyBin(text):
     resp = await post(f"{BASE}api/v2/paste", data=text)
     if not resp["success"]:
         return
-    return BASE + resp["message"]
+    link = BASE + resp["message"]
+    return link

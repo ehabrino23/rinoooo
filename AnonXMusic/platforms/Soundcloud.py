@@ -16,7 +16,10 @@ class SoundAPI:
         }
 
     async def valid(self, link: str):
-        return "soundcloud" in link
+        if "soundcloud" in link:
+            return True
+        else:
+            return False
 
     async def download(self, url):
         d = YoutubeDL(self.opts)

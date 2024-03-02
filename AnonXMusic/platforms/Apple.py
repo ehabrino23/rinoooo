@@ -12,7 +12,10 @@ class AppleAPI:
         self.base = "https://music.apple.com/in/playlist/"
 
     async def valid(self, link: str):
-        return bool(re.search(self.regex, link))
+        if re.search(self.regex, link):
+            return True
+        else:
+            return False
 
     async def track(self, url, playid: Union[bool, str] = None):
         if playid:

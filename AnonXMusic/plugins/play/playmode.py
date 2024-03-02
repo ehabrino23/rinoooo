@@ -12,11 +12,20 @@ from config import BANNED_USERS
 @language
 async def playmode_(client, message: Message, _):
     playmode = await get_playmode(message.chat.id)
-    Direct = True if playmode == "Direct" else None
+    if playmode == "Direct":
+        Direct = True
+    else:
+        Direct = None
     is_non_admin = await is_nonadmin_chat(message.chat.id)
-    Group = True if not is_non_admin else None
+    if not is_non_admin:
+        Group = True
+    else:
+        Group = None
     playty = await get_playtype(message.chat.id)
-    Playtype = None if playty == "Everyone" else True
+    if playty == "Everyone":
+        Playtype = None
+    else:
+        Playtype = True
     buttons = playmode_users_markup(_, Direct, Group, Playtype)
     response = await message.reply_text(
         _["play_22"].format(message.chat.title),

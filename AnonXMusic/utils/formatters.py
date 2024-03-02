@@ -9,7 +9,10 @@ def get_readable_time(seconds: int) -> str:
     time_suffix_list = ["s", "ᴍ", "ʜ", "ᴅᴀʏs"]
     while count < 4:
         count += 1
-        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
+        if count < 3:
+            remainder, result = divmod(seconds, 60)
+        else:
+            remainder, result = divmod(seconds, 24)
         if seconds == 0 and remainder == 0:
             break
         time_list.append(int(result))
@@ -17,7 +20,7 @@ def get_readable_time(seconds: int) -> str:
     for i in range(len(time_list)):
         time_list[i] = str(time_list[i]) + time_suffix_list[i]
     if len(time_list) == 4:
-        ping_time += f"{time_list.pop()}, "
+        ping_time += time_list.pop() + ", "
     time_list.reverse()
     ping_time += ":".join(time_list)
     return ping_time
@@ -38,8 +41,11 @@ def convert_bytes(size: float) -> str:
 
 async def int_to_alpha(user_id: int) -> str:
     alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+    text = ""
     user_id = str(user_id)
-    return "".join(alphabet[int(i)] for i in user_id)
+    for i in user_id:
+        text += alphabet[int(i)]
+    return text
 
 
 async def alpha_to_int(user_id_alphabet: str) -> int:
@@ -48,7 +54,8 @@ async def alpha_to_int(user_id_alphabet: str) -> int:
     for i in user_id_alphabet:
         index = alphabet.index(i)
         user_id += str(index)
-    return int(user_id)
+    user_id = int(user_id)
+    return user_id
 
 
 def time_to_seconds(time):
@@ -77,13 +84,13 @@ def seconds_to_min(seconds):
 
 
 def speed_converter(seconds, speed):
-    if str(speed) == "0.5":
+    if str(speed) == str("0.5"):
         seconds = seconds * 2
-    if str(speed) == "0.75":
+    if str(speed) == str("0.75"):
         seconds = seconds + ((50 * seconds) // 100)
-    if str(speed) == "1.5":
+    if str(speed) == str("1.5"):
         seconds = seconds - ((25 * seconds) // 100)
-    if str(speed) == "2.0":
+    if str(speed) == str("2.0"):
         seconds = seconds - ((50 * seconds) // 100)
     collect = seconds
     if seconds is not None:

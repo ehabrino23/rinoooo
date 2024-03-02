@@ -16,7 +16,8 @@ def changeImageSize(maxWidth, maxHeight, image):
     heightRatio = maxHeight / image.size[1]
     newWidth = int(widthRatio * image.size[0])
     newHeight = int(heightRatio * image.size[1])
-    return image.resize((newWidth, newHeight))
+    newImage = image.resize((newWidth, newHeight))
+    return newImage
 
 
 def clear(text):
@@ -24,7 +25,7 @@ def clear(text):
     title = ""
     for i in list:
         if len(title) + len(i) < 60:
-            title += f" {i}"
+            title += " " + i
     return title.strip()
 
 

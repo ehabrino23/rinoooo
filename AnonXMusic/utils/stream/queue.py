@@ -6,8 +6,6 @@ from AnonXMusic.utils.formatters import check_duration, seconds_to_min
 from config import autoclean, time_to_seconds
 
 
-loop = asyncio.get_event_loop_policy().get_event_loop()
-
 async def put_queue(
     chat_id,
     original_chat_id,
@@ -38,7 +36,8 @@ async def put_queue(
         "played": 0,
     }
     if forceplay:
-        if check := db.get(chat_id):
+        check = db.get(chat_id)
+        if check:
             check.insert(0, put)
         else:
             db[chat_id] = []
@@ -61,7 +60,7 @@ async def put_queue_index(
 ):
     if "20.212.146.162" in vidid:
         try:
-            dur = await loop.run_in_executor(
+            dur = await asyncio.get_event_loop().run_in_executor(
                 None, check_duration, vidid
             )
             duration = seconds_to_min(dur)
@@ -82,7 +81,8 @@ async def put_queue_index(
         "played": 0,
     }
     if forceplay:
-        if check := db.get(chat_id):
+        check = db.get(chat_id)
+        if check:
             check.insert(0, put)
         else:
             db[chat_id] = []

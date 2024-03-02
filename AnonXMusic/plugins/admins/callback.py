@@ -84,7 +84,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 exists = confirmer[chat_id][CallbackQuery.message.id]
                 current = db[chat_id][0]
             except:
-                return await CallbackQuery.edit_message_text("ғᴀɪʟᴇᴅ.")
+                return await CallbackQuery.edit_message_text(f"ғᴀɪʟᴇᴅ.")
             try:
                 if current["vidid"] != exists["vidid"]:
                     return await CallbackQuery.edit_message.text(_["admin_35"])
@@ -122,14 +122,14 @@ async def del_back_playlist(client, CallbackQuery, _):
         is_non_admin = await is_nonadmin_chat(CallbackQuery.message.chat.id)
         if not is_non_admin:
             if CallbackQuery.from_user.id not in SUDOERS:
-                if not (
-                    admins := adminlist.get(CallbackQuery.message.chat.id)
-                ):
+                admins = adminlist.get(CallbackQuery.message.chat.id)
+                if not admins:
                     return await CallbackQuery.answer(_["admin_13"], show_alert=True)
-                if CallbackQuery.from_user.id not in admins:
-                    return await CallbackQuery.answer(
-                        _["admin_14"], show_alert=True
-                    )
+                else:
+                    if CallbackQuery.from_user.id not in admins:
+                        return await CallbackQuery.answer(
+                            _["admin_14"], show_alert=True
+                        )
     if command == "Pause":
         if not await is_music_playing(chat_id):
             return await CallbackQuery.answer(_["admin_1"], show_alert=True)
@@ -148,7 +148,7 @@ async def del_back_playlist(client, CallbackQuery, _):
         await CallbackQuery.message.reply_text(
             _["admin_4"].format(mention), reply_markup=close_markup(_)
         )
-    elif command in ["Stop", "End"]:
+    elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
         await Anony.stop_stream(chat_id)
         await set_loop(chat_id, 0)
@@ -156,13 +156,14 @@ async def del_back_playlist(client, CallbackQuery, _):
             _["admin_5"].format(mention), reply_markup=close_markup(_)
         )
         await CallbackQuery.message.delete()
-    elif command in ["Skip", "Replay"]:
+    elif command == "Skip" or command == "Replay":
         check = db.get(chat_id)
         if command == "Skip":
             txt = f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
             popped = None
             try:
-                if popped := check.pop(0):
+                popped = check.pop(0)
+                if popped:
                     await auto_clean(popped)
                 if not check:
                     await CallbackQuery.edit_message_text(
@@ -203,7 +204,8 @@ async def del_back_playlist(client, CallbackQuery, _):
         videoid = check[0]["vidid"]
         status = True if str(streamtype) == "video" else None
         db[chat_id][0]["played"] = 0
-        if exis := (check[0]).get("old_dur"):
+        exis = (check[0]).get("old_dur")
+        if exis:
             db[chat_id][0]["dur"] = exis
             db[chat_id][0]["seconds"] = check[0]["old_second"]
             db[chat_id][0]["speed_path"] = None
@@ -290,7 +292,9 @@ async def del_back_playlist(client, CallbackQuery, _):
             db[chat_id][0]["markup"] = "tg"
             await CallbackQuery.edit_message_text(txt, reply_markup=close_markup(_))
         else:
-            if videoid in ["telegram", "soundcloud"]:
+            if videoid == "telegram":
+                image = None
+            elif videoid == "soundcloud":
                 image = None
             else:
                 try:

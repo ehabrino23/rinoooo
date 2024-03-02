@@ -41,11 +41,12 @@ def queue_markup(
             ),
         ],
     ]
-    return InlineKeyboardMarkup(not_dur if DURATION == "Unknown" else dur)
+    upl = InlineKeyboardMarkup(not_dur if DURATION == "Unknown" else dur)
+    return upl
 
 
 def queue_back_markup(_, CPLAY):
-    return InlineKeyboardMarkup(
+    upl = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
@@ -59,22 +60,16 @@ def queue_back_markup(_, CPLAY):
             ]
         ]
     )
+    return upl
 
 
 def aq_markup(_, chat_id):
-    return [
+    buttons = [
         [
-            InlineKeyboardButton(
-                text="▷", callback_data=f"ADMIN Resume|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="II", callback_data=f"ADMIN Pause|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"
-            ),
-            InlineKeyboardButton(
-                text="▢", callback_data=f"ADMIN Stop|{chat_id}"
-            ),
+            InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
+            InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
+            InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
+            InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
     ]
+    return buttons

@@ -9,8 +9,6 @@ import config
 
 from ..logging import LOGGER
 
-loop = asyncio.get_event_loop_policy().get_event_loop()
-
 
 def install_req(cmd: str) -> Tuple[str, str, int, int]:
     async def install_requirements():
@@ -28,7 +26,7 @@ def install_req(cmd: str) -> Tuple[str, str, int, int]:
             process.pid,
         )
 
-    return loop.run_until_complete(install_requirements())
+    return asyncio.get_event_loop().run_until_complete(install_requirements())
 
 
 def git():
@@ -41,9 +39,9 @@ def git():
         UPSTREAM_REPO = config.UPSTREAM_REPO
     try:
         repo = Repo()
-        LOGGER(__name__).info("Git Client Found [VPS DEPLOYER]")
+        LOGGER(__name__).info(f"Git Client Found [VPS DEPLOYER]")
     except GitCommandError:
-        LOGGER(__name__).info("Invalid Git Command")
+        LOGGER(__name__).info(f"Invalid Git Command")
     except InvalidGitRepositoryError:
         repo = Repo.init()
         if "origin" in repo.remotes:
@@ -70,4 +68,4 @@ def git():
         except GitCommandError:
             repo.git.reset("--hard", "FETCH_HEAD")
         install_req("pip3 install --no-cache-dir -r requirements.txt")
-        LOGGER(__name__).info("Fetching updates from upstream repository...")
+        LOGGER(__name__).info(f"Fetching updates from upstream repository...")

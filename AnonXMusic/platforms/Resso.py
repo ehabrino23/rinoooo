@@ -12,7 +12,10 @@ class RessoAPI:
         self.base = "https://m.resso.com/"
 
     async def valid(self, link: str):
-        return bool(re.search(self.regex, link))
+        if re.search(self.regex, link):
+            return True
+        else:
+            return False
 
     async def track(self, url, playid: Union[bool, str] = None):
         if playid:

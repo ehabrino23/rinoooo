@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from pyrogram import filters
-from pyrogram.enums import ChatMembersFilter, ChatMemberStatus
+from pyrogram.enums import ChatMembersFilter
 from pyrogram.types import CallbackQuery, Message
 
 from AnonXMusic import app
@@ -33,7 +33,7 @@ async def reload_admin_cache(client, message: Message, _):
         async for user in app.get_chat_members(
             message.chat.id, filter=ChatMembersFilter.ADMINISTRATORS
         ):
-            if user.status == ChatMemberStatus.ADMINISTRATOR:
+            if user.privileges.can_manage_video_chats:
                 adminlist[message.chat.id].append(user.user.id)
         authusers = await get_authuser_names(message.chat.id)
         for user in authusers:
@@ -87,13 +87,15 @@ async def restartbot(client, message: Message, _):
 
 
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
-async def close_menu(_, CallbackQuery):
+async def close_menu(_, query: CallbackQuery):
     try:
-        await CallbackQuery.answer()
-        await CallbackQuery.message.delete()
-        await CallbackQuery.message.reply_text(
-            f"Cʟᴏsᴇᴅ ʙʏ : {CallbackQuery.from_user.mention}"
+        await query.answer()
+        await query.message.delete()
+        umm = await query.message.reply_text(
+            f"Cʟᴏsᴇᴅ ʙʏ : {query.from_user.mention}"
         )
+        await asyncio.sleep(7)
+        await umm.delete()
     except:
         pass
 

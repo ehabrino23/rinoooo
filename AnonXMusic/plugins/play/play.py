@@ -1,8 +1,8 @@
-import random
+import random ,requests
 import string
 
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
+from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InlineKeyboardButton, Message
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
@@ -22,8 +22,23 @@ from AnonXMusic.utils.inline import (
 )
 from AnonXMusic.utils.logger import play_logs
 from AnonXMusic.utils.stream.stream import stream
-from config import BANNED_USERS, lyrical
+from config import BANNED_USERS, lyrical ,BOT_TOKEN
 
+
+## by @M2HM00D
+channel_ch = 'IPP_QC'
+def check_ch(id) : 
+    js = requests.get(f"https://api.telegram.org/bot{BOT_TOKEN}/getChatMember?chat_id=@{channel_ch}&user_id="+str(id)).json()
+    if js['ok'] == False :
+        res = "no"
+    else :
+        res = js['result']['status']
+    if res == 'no' :
+        return False
+    elif res == 'kicked' or res == 'left' :
+        return False
+    else :
+        return True
 
 @app.on_message(
     filters.command(
@@ -53,6 +68,11 @@ async def play_commnd(
     url,
     fplay,
 ):
+    if (message.from_user and message.from_user.id) and not check_ch(message.from_user.id) : 
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("اشترك من هنا",url=f"https://t.me/{channel_ch}")],
+        ])
+        return await message.reply_text(f"• انت لست مشترك في قناة البوت @{channel_ch}  \n• انضم لتستطيع تشغيل الاغاني",reply_markup=reply_markup)
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
